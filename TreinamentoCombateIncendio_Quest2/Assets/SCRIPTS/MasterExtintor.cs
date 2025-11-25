@@ -9,6 +9,7 @@ public enum type
     A,
     B,
     C,
+    D,
     K
 }
 
@@ -34,53 +35,28 @@ public class MasterExtintor : MonoBehaviour
     
     void Start()
     {
-        Debug.Log($"[Extintor] Inicializando extintor tipo {tipoDeExtintor}");
-        
         grabInteractable = GetComponent<XRGrabInteractable>();
         
         if (grabInteractable != null)
         {
             grabInteractable.selectEntered.AddListener(OnGrab);
             grabInteractable.selectExited.AddListener(OnRelease);
-            Debug.Log("[Extintor] XRGrabInteractable encontrado e configurado");
-        }
-        else
-        {
-            Debug.LogWarning("[Extintor] XRGrabInteractable NÃO encontrado! Adicione o componente.");
         }
         
         if (particulasEspuma != null)
         {
             particulasEspuma.Stop();
-            Debug.Log("[Extintor] Particle System encontrado");
-        }
-        else
-        {
-            Debug.LogWarning("[Extintor] Particle System NÃO atribuído!");
-        }
-        
-        if (saidaDaEspuma == null)
-        {
-            Debug.LogWarning("[Extintor] Saída Da Espuma NÃO atribuída!");
-        }
-        
-        if (prefabEspuma == null)
-        {
-            Debug.LogWarning("[Extintor] Prefab Espuma NÃO atribuído!");
         }
     }
 
     void Update()
     {
-        // TESTE: Permite ativar manualmente no Inspector mesmo sem segurar
-        // Remova o "|| true" depois de testar
-        if ((estaSegurando && extintorAtivo) || extintorAtivo)
+        if (extintorAtivo)
         {
             // Ativa o sistema de partículas
             if (particulasEspuma != null && !particulasEspuma.isPlaying)
             {
                 particulasEspuma.Play();
-                Debug.Log($"[Extintor] Partículas ATIVADAS - Tipo: {tipoDeExtintor}");
             }
             
             // Spawna objetos de espuma com física para colisão
@@ -89,14 +65,6 @@ public class MasterExtintor : MonoBehaviour
                 SpawnarEspuma();
                 proximoSpawn = Time.time + taxaDeSpawn;
             }
-            else if (prefabEspuma == null)
-            {
-                Debug.LogWarning("[Extintor] Prefab Espuma não atribuído!");
-            }
-            else if (saidaDaEspuma == null)
-            {
-                Debug.LogWarning("[Extintor] Saída Da Espuma não atribuída!");
-            }
         }
         else
         {
@@ -104,7 +72,6 @@ public class MasterExtintor : MonoBehaviour
             if (particulasEspuma != null && particulasEspuma.isPlaying)
             {
                 particulasEspuma.Stop();
-                Debug.Log("[Extintor] Partículas DESATIVADAS");
             }
         }
     }
@@ -120,20 +87,14 @@ public class MasterExtintor : MonoBehaviour
         extintorAtivo = false;
     }
     
-    // Método público para ser chamado por Input Action ou Button no Inspector
     public void AtivarExtintor()
     {
-        if (estaSegurando)
-        {
-            extintorAtivo = true;
-            Debug.Log($"Extintor tipo {tipoDeExtintor} ativado!");
-        }
+        extintorAtivo = true;
     }
     
     public void DesativarExtintor()
     {
         extintorAtivo = false;
-        Debug.Log($"Extintor tipo {tipoDeExtintor} desativado!");
     }
     
     void SpawnarEspuma()

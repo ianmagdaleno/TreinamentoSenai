@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 8768831615675274722}
   - component: {fileID: 649376108711055124}
   - component: {fileID: 3258239258941039126}
+  - component: {fileID: 6238573668977566472}
   m_Layer: 0
-  m_Name: Espuma
+  m_Name: D_Espuma
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -139,3 +140,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6238573668977566472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6298715047905097211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c64741994d0c1624aa6dc695fe27ed2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EspumaExtintor
+  tipoExtintor: 3
