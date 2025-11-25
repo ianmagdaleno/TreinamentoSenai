@@ -33,57 +33,80 @@ public class ExtintorXRController : MonoBehaviour
         {
             grabInteractable.selectEntered.AddListener(OnGrab);
             grabInteractable.selectExited.AddListener(OnRelease);
+            grabInteractable.activated.AddListener(OnActivated);
+            grabInteractable.deactivated.AddListener(OnDeactivated);
+            Debug.Log("[ExtintorXR] Eventos de grab E activate registrados");
+        }
+        else
+        {
+            Debug.LogError("[ExtintorXR] XRGrabInteractable NÃO encontrado!");
         }
         
         // Registra o input action do gatilho
         if (activateAction.action != null)
         {
             activateAction.action.Enable();
+            Debug.Log($"[ExtintorXR] Input Action configurado: {activateAction.action.name}");
+        }
+        else
+        {
+            Debug.LogWarning("[ExtintorXR] Input Action NÃO configurado! Configure 'Activate Action' no Inspector.");
         }
     }
     
     void Update()
     {
-        // Verifica se está segurando e se o gatilho está pressionado
-        if (estaSegurando && masterExtintor != null)
+        // TESTE: Tecla T para testar ativação no editor
+        if (Input.GetKeyDown(KeyCode.T) && estaSegurando)
         {
-            float activateValue = activateAction.action.ReadValue<float>();
-            
-            // Considera pressionado se o valor for maior que 0.5
-            if (activateValue > 0.5f)
-            {
-                if (!masterExtintor.extintorAtivo)
-                {
-                    masterExtintor.AtivarExtintor();
-                }
-            }
-            else
-            {
-                if (masterExtintor.extintorAtivo)
-                {
-                    masterExtintor.DesativarExtintor();
-                }
-            }
+            Debug.Log("[ExtintorXR] Tecla T pressionada - Testando ativação");
+            masterExtintor.extintorAtivo = !masterExtintor.extintorAtivo;
         }
+        
+        // Verifica se está segurando
+        if (!estaSegurando || masterExtintor == null)
+            return;
+            
+        // Os eventos activated/deactivated já cuidam da ativação
+        // Não precisa fazer nada no Update quando os eventos estão funcionando
     }
     
     private void OnGrab(SelectEnterEventArgs args)
     {
         estaSegurando = true;
-        Debug.Log("Extintor pegado!");
+        Debug.Log($"[ExtintorXR] ✓ Extintor PEGADO! estaSegurando = {estaSegurando}");
+        Debug.Log($"[ExtintorXR] Interactor: {args.interactorObject}");
     }
     
     private void OnRelease(SelectExitEventArgs args)
     {
         estaSegurando = false;
+        Debug.Log($"[ExtintorXR] Extintor SOLTO! estaSegurando = {estaSegurando}");
         
         // Garante que o extintor seja desativado ao soltar
         if (masterExtintor != null && masterExtintor.extintorAtivo)
         {
             masterExtintor.DesativarExtintor();
         }
-        
-        Debug.Log("Extintor solto!");
+    }
+    
+    // Eventos de ativação (gatilho)
+    private void OnActivated(ActivateEventArgs args)
+    {
+        Debug.Log("[ExtintorXR] 🔥 GATILHO PRESSIONADO!");
+        if (masterExtintor != null)
+        {
+            masterExtintor.AtivarExtintor();
+        }
+    }
+    
+    private void OnDeactivated(DeactivateEventArgs args)
+    {
+        Debug.Log("[ExtintorXR] GATILHO SOLTO!");
+        if (masterExtintor != null)
+        {
+            masterExtintor.DesativarExtintor();
+        }
     }
     
     void OnDestroy()
@@ -93,6 +116,8 @@ public class ExtintorXRController : MonoBehaviour
         {
             grabInteractable.selectEntered.RemoveListener(OnGrab);
             grabInteractable.selectExited.RemoveListener(OnRelease);
+            grabInteractable.activated.RemoveListener(OnActivated);
+            grabInteractable.deactivated.RemoveListener(OnDeactivated);
         }
         
         if (activateAction.action != null)
