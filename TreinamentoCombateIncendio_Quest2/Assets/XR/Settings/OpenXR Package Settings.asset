@@ -568,10 +568,10 @@ MonoBehaviour:
   m_Name: Standalone
   m_EditorClassIdentifier: 
   features:
-  - {fileID: 2988725640614291393}
   - {fileID: -4250645227808397028}
   - {fileID: -1346462921097354616}
   - {fileID: -7957954373177174902}
+  - {fileID: 2988725640614291393}
   - {fileID: -6693860361970198583}
   - {fileID: 2398712172449664187}
   - {fileID: 2179384398892205089}
@@ -711,7 +711,7 @@ MonoBehaviour:
   m_symmetricProjection: 0
   m_optimizeMultiviewRenderRegions: 0
   m_multiviewRenderRegionsOptimizationMode: 0
-  m_hasMigratedMultiviewRenderRegionSetting: 0
+  m_hasMigratedMultiviewRenderRegionSetting: 1
   m_foveatedRenderingApi: 0
   m_useOpenXRPredictedTime: 0
 --- !u!114 &3664968634404769868
@@ -748,10 +748,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   features:
   - {fileID: 8700321411168725666}
-  - {fileID: 1591473298091716590}
   - {fileID: 6178891867267034754}
   - {fileID: 1586641872530833744}
   - {fileID: -5745368083257714847}
+  - {fileID: 1591473298091716590}
   - {fileID: -8271506650617935381}
   - {fileID: -7176367815019177480}
   - {fileID: -29686098941323628}
